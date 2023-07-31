@@ -3,7 +3,6 @@ import reactLogo from './assets/images/react.svg'
 import viteLogo from '/vite.svg'
 import Welcome from './pages/Welcome'
 import Login from './components/auth/Login'
-import Logout from './components/auth/Logout'
 import { gapi } from 'gapi-script'
 import './App.css'
 
@@ -24,7 +23,6 @@ function App() {
   return (
     <>
       <Login/>
-      <Logout/>
     </>
   )
 }

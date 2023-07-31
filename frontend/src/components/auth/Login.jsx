@@ -1,14 +1,42 @@
 import React, { useState } from 'react'
-import { GoogleLogin } from '@leecheuk/react-google-login'
+import { GoogleLogin, GoogleLogout } from '@leecheuk/react-google-login'
 
 const clientId = "1078813141578-ncckgu3hnvqd03e0n7d7kfj0tfkiegdh.apps.googleusercontent.com";
 
 function UserCard({ userData }) {
   return (
     <div className="user-card">
-      <h2>{userData.name}</h2>
+      <br />
+      <div className='read-the-docs'>Current session:</div>
+      <h3>{userData.name}</h3>
       <img src={userData.imageUrl} alt="user image" />
     </div>
+  )
+}
+
+function Logout({ setUserData }) {
+
+  const onSuccess = () => {
+    console.log('Log out successfull!');
+    const newUserData = {
+      isloggedIn: false,
+      name: "",
+      imageUrl: ""
+    }
+
+    setUserData(newUserData);
+  }
+
+  return (
+    <>
+      <div className="signOutButton">
+        <GoogleLogout
+          clientId={clientId}
+          buttonText={'Logout'}
+          onLogoutSuccess={onSuccess}
+        />
+      </div>
+    </>
   )
 }
 
@@ -45,15 +73,20 @@ function Login() {
   return (
     <>
       <div className="signInButton">
+        <br />
+        <h2>Welcome to ClubConnect</h2>
+        {userData.isloggedIn ? <UserCard userData={userData}/> : ""}
+        <br />
+        {userData.isloggedIn ?
+        <Logout setUserData={setUserData}/> :
         <GoogleLogin
           clientId={clientId}
-          buttonText='Login'
+          buttonText='Login with your IIITD email'
           onSuccess={onSuccess}
           onFailure={onFailure}
           cookiePolicy={'single_host_origin'}
           isSignedIn={true}
-        />
-        {userData.isloggedIn ? <UserCard userData={userData}/> : ""}
+        />}
       </div>
     </>
   )
